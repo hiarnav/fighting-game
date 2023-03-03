@@ -5,69 +5,9 @@ const JUMP_HEIGHT = 20;
 const PLAYER_SPEED = 5;
 const GAME_TIME = 60;
 
-canvas.width = 1400;
-canvas.height = 675;
+canvas.width = 1200;
+canvas.height = 650;
 c.fillRect(0, 0, canvas.width, canvas.height);
-
-/*
- * Class for Sprites. Holds all attributes, draws
- * the sprite, and updates them on screen
- */
-class Sprite {
-  constructor({ position, velocity, color, offset }) {
-    this.position = position;
-    this.velocity = velocity;
-    this.height = 150;
-    this.width = 50;
-    this.color = color;
-    this.health = 100;
-    this.isAttacking;
-    this.lastKey;
-    this.attackHitbox = {
-      position: {
-        x: this.position.x,
-        y: this.position.y,
-      },
-      offset,
-      width: 100,
-      height: 50,
-    };
-  }
-
-  draw() {
-    c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    if (this.isAttacking) {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackHitbox.position.x,
-        this.attackHitbox.position.y,
-        this.attackHitbox.width,
-        this.attackHitbox.height
-      );
-    }
-  }
-
-  update() {
-    this.draw();
-    this.attackHitbox.position.x = this.position.x + this.attackHitbox.offset.x;
-    this.attackHitbox.position.y = this.position.y;
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-    // may need to add + this.velocity.y
-    if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-      this.velocity.y = 0;
-    } else this.velocity.y += GRAVITY;
-  }
-
-  // sets attacking state to true, and then resets to false after 100ms
-  attack() {
-    this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
-  }
-}
 
 /*
  * position: x, y coordinate of sprite
@@ -75,7 +15,15 @@ class Sprite {
  * color: fill color of rect
  * offset: adjustments for player
  */
-const player = new Sprite({
+
+const background = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  backgroundSource: "./redketchup/frame_000_delay-0.03s.gif",
+});
+const player = new Fighter({
   position: {
     x: 100,
     y: 0,
@@ -91,7 +39,7 @@ const player = new Sprite({
   },
 });
 
-const enemy = new Sprite({
+const enemy = new Fighter({
   position: {
     x: 400,
     y: 100,
@@ -185,6 +133,9 @@ function animate() {
   // keep the background solid black
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+
+  // draw background before players, so it is in the back
+  background.update();
   // have the two sprites update with animations
   player.update();
   enemy.update();
