@@ -5,8 +5,8 @@ const JUMP_HEIGHT = 20;
 const PLAYER_SPEED = 5;
 const GAME_TIME = 60;
 
-canvas.width = 1200;
-canvas.height = 650;
+canvas.width = 1428;
+canvas.height = 600;
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 /*
@@ -21,7 +21,8 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  backgroundSource: "./redketchup/frame_000_delay-0.03s.gif",
+  backgroundSource: "./assets/maps/forgottenforest/frame_",
+  frameCap: 8,
 });
 const player = new Fighter({
   position: {

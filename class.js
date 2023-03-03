@@ -1,10 +1,14 @@
 class Sprite {
-  constructor({ position, backgroundSource }) {
+  constructor({ position, backgroundSource, frameCap }) {
     this.position = position;
     this.height = 150;
     this.width = 50;
     this.background = new Image();
-    this.background.src = backgroundSource;
+    this.frame = 0;
+    this.frameCap = frameCap;
+    this.framesElapsed = 0;
+    this.framesHold = 7;
+    this.fileTemplate = backgroundSource;
   }
 
   draw() {
@@ -13,6 +17,13 @@ class Sprite {
 
   update() {
     this.draw();
+    this.framesElapsed++;
+    if (this.framesElapsed % this.framesHold === 0) {
+      this.background.src = this.fileTemplate + this.frame + ".gif";
+      if (this.frame < this.frameCap - 1) {
+        this.frame++;
+      } else this.frame = 0;
+    }
   }
 }
 
