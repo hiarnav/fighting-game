@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const GRAVITY = 0.7;
 const JUMP_HEIGHT = 20;
-const PLAYER_SPEED = 5;
+const PLAYER_SPEED = 8;
 const GAME_TIME = 60;
 
 canvas.width = 1428;
@@ -42,6 +42,32 @@ const player = new Fighter({
   modelSource: "./assets/characters/martialhero1/Sprites/Idle.png",
   frameCap: 8,
   scale: 2.5,
+  offset: {
+    x: 215,
+    y: 215,
+  },
+  sprites: {
+    idle: {
+      modelSource: "./assets/characters/martialhero1/Sprites/Idle.png",
+      frameCap: 8,
+    },
+    run: {
+      modelSource: "./assets/characters/martialhero1/Sprites/Run.png",
+      frameCap: 8,
+    },
+    jump: {
+      modelSource: "./assets/characters/martialhero1/Sprites/Jump.png",
+      frameCap: 2,
+    },
+    fall: {
+      modelSource: "./assets/characters/martialhero1/Sprites/Fall.png",
+      frameCap: 2,
+    },
+    attack1: {
+      modelSource: "./assets/characters/martialhero1/Sprites/Attack1.png",
+      frameCap: 6,
+    },
+  },
 });
 
 const enemy = new Fighter({
@@ -58,9 +84,35 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
-  modelSource: "./assets/characters/martialhero3/Sprites/Idle.png",
-  frameCap: 8,
-  scale: 1,
+  modelSource: "./assets/characters/martialhero2/Sprites/Idle.png",
+  frameCap: 4,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 225,
+  },
+  sprites: {
+    idle: {
+      modelSource: "./assets/characters/martialhero2/Sprites/Idle.png",
+      frameCap: 4,
+    },
+    run: {
+      modelSource: "./assets/characters/martialhero2/Sprites/Run.png",
+      frameCap: 8,
+    },
+    jump: {
+      modelSource: "./assets/characters/martialhero2/Sprites/Jump.png",
+      frameCap: 2,
+    },
+    fall: {
+      modelSource: "./assets/characters/martialhero2/Sprites/Fall.png",
+      frameCap: 2,
+    },
+    attack1: {
+      modelSource: "./assets/characters/martialhero2/Sprites/Attack1.png",
+      frameCap: 4,
+    },
+  },
 });
 
 const keys = {
@@ -151,18 +203,46 @@ function animate() {
   player.velocity.x = 0;
   enemy.velocity.x = 0;
 
-  // player movement
+  //<-------PLAYER MOVEMENT------->
+
+  // moving left
   if (keys.a.pressed && player.lastKey == "a") {
     player.velocity.x = -PLAYER_SPEED;
+    player.switchSprites("run");
+    // moving right
   } else if (keys.d.pressed && player.lastKey == "d") {
     player.velocity.x = PLAYER_SPEED;
+    player.switchSprites("run");
+    // idle
+  } else {
+    player.switchSprites("idle");
+  }
+  // jumping
+  if (player.velocity.y < 0) {
+    player.switchSprites("jump");
+  } else if (player.velocity.y > 0) {
+    player.switchSprites("fall");
   }
 
-  // enemy movement
+  //<-------ENEMY MOVEMENT------->
+
+  // moving left
   if (keys.ArrowLeft.pressed && enemy.lastKey == "ArrowLeft") {
     enemy.velocity.x = -PLAYER_SPEED;
+    enemy.switchSprites("run");
+    // moving right
   } else if (keys.ArrowRight.pressed && enemy.lastKey == "ArrowRight") {
     enemy.velocity.x = PLAYER_SPEED;
+    enemy.switchSprites("run");
+    // idle
+  } else {
+    enemy.switchSprites("idle");
+  }
+  // jumping
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprites("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprites("fall");
   }
 
   // detect if attack hits enemy
@@ -223,6 +303,7 @@ window.addEventListener("keydown", (event) => {
       break;
     case "ArrowUp":
       enemy.velocity.y = -JUMP_HEIGHT;
+      break;
     case " ":
       player.attack();
       break;
