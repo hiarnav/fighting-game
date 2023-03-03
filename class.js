@@ -32,7 +32,15 @@ class Sprite {
  * the sprite, and updates them on screen
  */
 class Fighter {
-  constructor({ position, velocity, color, offset }) {
+  constructor({
+    position,
+    velocity,
+    color,
+    offset,
+    modelSource,
+    frameCap,
+    scale,
+  }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
@@ -41,6 +49,14 @@ class Fighter {
     this.health = 100;
     this.isAttacking;
     this.lastKey;
+    this.playerModel = new Image();
+    this.playerModel.src = modelSource;
+    this.scale = scale;
+    this.currentFrame = 0;
+    this.frameCap = frameCap;
+    this.framesElapsed = 0;
+    this.framesHold = 7;
+    this.fileTemplate = modelSource;
     this.attackHitbox = {
       position: {
         x: this.position.x,
@@ -52,17 +68,17 @@ class Fighter {
     };
   }
   draw() {
-    c.fillStyle = this.color;
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    if (this.isAttacking) {
-      c.fillStyle = "green";
-      c.fillRect(
-        this.attackHitbox.position.x,
-        this.attackHitbox.position.y,
-        this.attackHitbox.width,
-        this.attackHitbox.height
-      );
-    }
+    c.drawImage(
+      this.playerModel,
+      this.currentFrame * (this.playerModel.width / this.frameCap),
+      0,
+      this.playerModel.width / this.frameCap,
+      this.playerModel.height,
+      this.position.x,
+      this.position.y,
+      (this.playerModel.width / this.frameCap) * this.scale,
+      this.playerModel.height * this.scale
+    );
   }
 
   update() {

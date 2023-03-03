@@ -24,6 +24,7 @@ const background = new Sprite({
   backgroundSource: "./assets/maps/forgottenforest/frame_",
   frameCap: 8,
 });
+
 const player = new Fighter({
   position: {
     x: 100,
@@ -38,6 +39,9 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
+  modelSource: "./assets/characters/martialhero1/Sprites/Idle.png",
+  frameCap: 8,
+  scale: 2.5,
 });
 
 const enemy = new Fighter({
@@ -54,6 +58,9 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
+  modelSource: "./assets/characters/martialhero3/Sprites/Idle.png",
+  frameCap: 8,
+  scale: 1,
 });
 
 const keys = {
