@@ -7,7 +7,7 @@ class Sprite {
     this.frame = 0;
     this.frameCap = frameCap;
     this.framesElapsed = 0;
-    this.framesHold = 7;
+    this.framesHold = 3;
     this.fileTemplate = backgroundSource;
   }
 
@@ -63,12 +63,22 @@ class Fighter {
   update() {
     this.draw();
     this.framesElapsed++;
+    console.log(this.fileTemplate + this.frame + ".png");
     if (this.framesElapsed % this.framesHold === 0) {
       this.playerModel.src = this.fileTemplate + this.frame + ".png";
       if (this.frame < this.frameCap - 1) {
         this.frame++;
       } else this.frame = 0;
     }
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    console.log(
+      "CURRENT LEVEL: " + this.position.y + this.height + this.velocity.y
+    );
+    console.log("CANVAS " + canvas.height);
+    if (this.position.y + this.height + this.velocity.y >= -50) {
+      this.velocity.y = 0;
+    } else this.velocity.y += GRAVITY;
   }
 
   // sets attacking state to true, and then resets to false after 100ms
@@ -98,22 +108,22 @@ class Fighter {
         }
         break;
       case "run":
-        if (this.playerModel != this.sprites.run.playerModel) {
-          this.playerModel = this.sprites.run.playerModel;
+        if (this.fileTemplate != this.sprites.run.modelSource) {
+          this.fileTemplate = this.sprites.run.modelSource;
           this.frameCap = this.sprites.run.frameCap;
           this.frame = 0;
         }
         break;
       case "jump":
-        if (this.playerModel != this.sprites.jump.playerModel) {
-          this.playerModel = this.sprites.jump.playerModel;
+        if (this.fileTemplate != this.sprites.jump.modelSource) {
+          this.fileTemplate = this.sprites.jump.modelSource;
           this.frameCap = this.sprites.jump.frameCap;
           this.frame = 0;
         }
         break;
       case "fall":
-        if (this.playerModel != this.sprites.fall.playerModel) {
-          this.playerModel = this.sprites.fall.playerModel;
+        if (this.fileTemplate != this.sprites.fall.modelSource) {
+          this.fileTemplate = this.sprites.fall.modelSource;
           this.frameCap = this.sprites.fall.frameCap;
           this.frame = 0;
         }

@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const GRAVITY = 0.7;
 const JUMP_HEIGHT = 20;
-const PLAYER_SPEED = 8;
+const PLAYER_SPEED = 11;
 const GAME_TIME = 60;
 
 canvas.width = 1428;
@@ -21,14 +21,14 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  backgroundSource: "./assets/maps/sunsetdojo/frame_",
-  frameCap: 48,
+  backgroundSource: "./assets/maps/sakuracity/frame_",
+  frameCap: 126,
 });
 
 const player = new Fighter({
   position: {
-    x: 0,
-    y: 0,
+    x: -400,
+    y: -100,
   },
   velocity: {
     x: 0,
@@ -42,16 +42,16 @@ const player = new Fighter({
       frameCap: 8,
     },
     run: {
-      modelSource: "./assets/characters/windsaber/Sprites/Run.png",
+      modelSource: "./assets/characters/windsaber/animations/PNG/run/frame_",
       frameCap: 8,
     },
     jump: {
-      modelSource: "./assets/characters/martialhero1/Sprites/Jump.png",
-      frameCap: 2,
+      modelSource: "./assets/characters/windsaber/animations/PNG/jump/frame_",
+      frameCap: 3,
     },
     fall: {
-      modelSource: "./assets/characters/martialhero1/Sprites/Fall.png",
-      frameCap: 2,
+      modelSource: "./assets/characters/windsaber/animations/PNG/fall/frame_",
+      frameCap: 3,
     },
     attack1: {
       modelSource: "./assets/characters/martialhero1/Sprites/Attack1.png",
