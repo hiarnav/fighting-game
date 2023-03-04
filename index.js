@@ -21,38 +21,28 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  backgroundSource: "./assets/maps/forgottenforest/frame_",
-  frameCap: 8,
+  backgroundSource: "./assets/maps/sunsetdojo/frame_",
+  frameCap: 48,
 });
 
 const player = new Fighter({
   position: {
-    x: 100,
+    x: 0,
     y: 0,
   },
   velocity: {
     x: 0,
     y: 0,
   },
-  color: "red",
-  offset: {
-    x: 0,
-    y: 0,
-  },
-  modelSource: "./assets/characters/martialhero1/Sprites/Idle.png",
+  modelSource: "./assets/characters/windsaber/animations/PNG/idle/frame_",
   frameCap: 8,
-  scale: 2.5,
-  offset: {
-    x: 215,
-    y: 215,
-  },
   sprites: {
     idle: {
-      modelSource: "./assets/characters/martialhero1/Sprites/Idle.png",
+      modelSource: "./assets/characters/windsaber/animations/PNG/idle/frame_",
       frameCap: 8,
     },
     run: {
-      modelSource: "./assets/characters/martialhero1/Sprites/Run.png",
+      modelSource: "./assets/characters/windsaber/Sprites/Run.png",
       frameCap: 8,
     },
     jump: {
@@ -198,7 +188,7 @@ function animate() {
   background.update();
   // have the two sprites update with animations
   player.update();
-  enemy.update();
+  //enemy.update();
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;

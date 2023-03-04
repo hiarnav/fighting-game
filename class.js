@@ -32,81 +32,43 @@ class Sprite {
  * the sprite, and updates them on screen
  */
 class Fighter {
-  constructor({
-    position,
-    velocity,
-    color,
-    modelSource,
-    frameCap,
-    scale,
-    offset = { x: 0, y: 0 },
-    sprites,
-  }) {
+  constructor({ position, velocity, modelSource, frameCap, sprites }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;
-    this.color = color;
     this.health = 100;
     this.attackHitbox = {
       position: {
         x: this.position.x,
         y: this.position.y,
       },
-      offset,
       width: 100,
       height: 50,
     };
     this.isAttacking;
     this.lastKey;
     this.playerModel = new Image();
-    this.playerModel.src = modelSource;
-    this.offset = offset;
-    this.scale = scale;
     this.frame = 0;
     this.frameCap = frameCap;
     this.framesElapsed = 0;
     this.framesHold = 5;
     this.fileTemplate = modelSource;
     this.sprites = sprites;
-
-    for (const sprite in sprites) {
-      sprites[sprite].playerModel = new Image();
-      sprites[sprite].playerModel.src = sprites[sprite].modelSource;
-    }
   }
   draw() {
-    c.drawImage(
-      this.playerModel,
-      this.frame * (this.playerModel.width / this.frameCap),
-      0,
-      this.playerModel.width / this.frameCap,
-      this.playerModel.height,
-      this.position.x - this.offset.x,
-      this.position.y - this.offset.y,
-      (this.playerModel.width / this.frameCap) * this.scale,
-      this.playerModel.height * this.scale
-    );
+    c.drawImage(this.playerModel, this.position.x, this.position.y);
   }
 
   update() {
     this.draw();
     this.framesElapsed++;
     if (this.framesElapsed % this.framesHold === 0) {
+      this.playerModel.src = this.fileTemplate + this.frame + ".png";
       if (this.frame < this.frameCap - 1) {
         this.frame++;
       } else this.frame = 0;
     }
-
-    this.attackHitbox.position.x = this.position.x + this.attackHitbox.offset.x;
-    this.attackHitbox.position.y = this.position.y;
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-    // may need to add + this.velocity.y
-    if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-      this.velocity.y = 0;
-      this.position.y = 450;
-    } else this.velocity.y += GRAVITY;
   }
 
   // sets attacking state to true, and then resets to false after 100ms
@@ -129,8 +91,8 @@ class Fighter {
     // switch based on what animation needs to be done
     switch (sprite) {
       case "idle":
-        if (this.playerModel !== this.sprites.idle.playerModel) {
-          this.playerModel = this.sprites.idle.playerModel;
+        if (this.fileTemplate !== this.sprites.idle.modelSource) {
+          this.fileTemplate = this.sprites.idle.modelSource;
           this.frameCap = this.sprites.idle.frameCap;
           this.frame = 0;
         }
